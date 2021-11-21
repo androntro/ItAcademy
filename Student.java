@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Student extends Human{
 
-    ArrayList <Course> courses = new ArrayList<>();
-    ArrayList<Estimate> estimates = new ArrayList<>();
+   private ArrayList <Course> courses = new ArrayList<>();
+   private ArrayList<Estimate> estimates = new ArrayList<>();
 
-    public Student(String name, String sureName, int age) {
-        super(name, sureName, age);
+    public Student(int id, String name, String sureName, int age) {
+        super(id, name, sureName, age);
     }
 
 
@@ -27,4 +27,5 @@ public class Student extends Human{
     public ArrayList<Estimate> getEstimates() {
         return estimates;
     }
+
 }
