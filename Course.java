@@ -5,7 +5,7 @@ public class Course {
     String courseName;
     Teacher teacher;
 
-    public Course (String courseName){
+    public Course(String courseName) {
         this.courseName = courseName;
     }
 

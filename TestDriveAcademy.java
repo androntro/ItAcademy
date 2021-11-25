@@ -1,47 +1,56 @@
 package by.itacademy.course.academy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.ArrayList;
+//import java.util.HashMap;
 
-public class TestDriveAcademy extends Academy{
+import by.itacademy.course.tests.MyRunnable1;
+
+public class TestDriveAcademy extends Academy {
 
     public static void main(String[] args) {
         //add test humen
-        TestDriveAcademy td = new TestDriveAcademy();
-        td.go();
+        TestDriveAcademy tda = new TestDriveAcademy();
+        tda.run();
 
 
     }
 
-    public void go(){
+    public void run() {
         Academy academy = new Academy();
-        academy.go();
+        academy.create();
+        //academy.run();
 
-        students = new ArrayList<>();
-        teachers = new ArrayList<>();
-        courses = new HashMap<String, Course>();
+//        students = new ArrayList<>();
+//        teachers = new ArrayList<>();
+//        courses = new HashMap<String, Course>();
 
 
+//        addStudent("Anton", "First", 22);
+//        addStudent("Boris", "Second", 23);
 
-        addStudent("Anton","First", 22);
-        addStudent("Boris","Second", 23);
+//        addTeacher("Alexandr", "Fteacher", 52);
+//        addTeacher("Benya", "Steacher", 84);
 
-        addTeacher("Alexandr", "Fteacher", 52);
-        addTeacher("Benya", "Steacher", 84);
+//        addCourse("Philosophy");
+//        addCourse("Biology");
 
-        addCourse("Philosophy");
-        addCourse("Biology");
+//        mapTeacherToCourse(2, "Philosophy");
+//        mapTeacherToCourse(3, "Math");
 
-        pairCourseTeacher(2, "Philosophy");
-        pairCourseTeacher(3,"Math");
+        academy.addStudentToCourse(6, "Philosophy");
+        academy.addStudentToCourse(6, "Programming");
+        academy.addStudentToCourse(6, "Biology");
+        academy.addStudentToCourse(6, "Language");
+        academy.addStudentToCourse(6, "Sociology");
+        academy.addStudentToCourse(6, "Physic");
 
-        addStudentToCourse(0,"Philosophy");
-        addStudentToCourse(0,"Math");
+        academy.addStudentToCourse(6, "Math");
 
-        setEstimate(2,0,5);
-        setEstimate(3,1,7);
+        academy.setMark(2, 6, 5);
+        academy.setMark(3, 8, 7);
 
-        System.out.println("Finished");
+
+       // System.out.println("Finished");
 
     }
 }

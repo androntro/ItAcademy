@@ -2,30 +2,31 @@ package by.itacademy.course.academy;
 
 import java.util.ArrayList;
 
-public class Student extends Human{
+public class Student extends Human {
 
-   private ArrayList <Course> courses = new ArrayList<>();
-   private ArrayList<Estimate> estimates = new ArrayList<>();
 
-    public Student(int id, String name, String sureName, int age) {
-        super(id, name, sureName, age);
+    private ArrayList<Course> courses = new ArrayList<>();
+    private ArrayList<Mark> marks = new ArrayList<>();
+
+
+    public Student(int humanId, String name, String sureName, int age) {
+        super(humanId, name, sureName, age);
     }
-
 
     public void addCourse(Course c) {
         courses.add(c);
     }
 
-    public void addEstimate(Estimate e){
-        estimates.add(e);
+    public void setMark(Mark e) {
+        marks.add(e);
     }
 
     public ArrayList<Course> getCourses() {
         return courses;
     }
 
-    public ArrayList<Estimate> getEstimates() {
-        return estimates;
+    public ArrayList<Mark> getMarks() {
+        return marks;
     }
 
 }
