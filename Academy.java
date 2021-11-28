@@ -1,11 +1,11 @@
 package by.itacademy.course.academy;
 
 import java.util.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public class Academy {
-    //protected int id;
+
+
     protected ArrayList<Student> students;
     protected ArrayList<Teacher> teachers;
     protected HashMap<String, Course> courses;
@@ -45,118 +45,349 @@ public class Academy {
         addStudent("Emelya", "Pechnik", 22);
         addStudent("Frosya", "Polotskaya", 23);
 
+        mapTeacherToCourse(6, "Physic");
         mapTeacherToCourse(5, "Philosophy");
         mapTeacherToCourse(4, "Programming");
         mapTeacherToCourse(3, "Biology");
         mapTeacherToCourse(2, "Language");
         mapTeacherToCourse(1, "Sociology");
-        mapTeacherToCourse(0, "Physic");
 
+
+        //__________________________________________________
+
+        processAddStudentToCourse((Student) getHumanById(students, 7), getCourseByCourseName("Philosophy"));
+        processAddStudentToCourse((Student) getHumanById(students, 7), getCourseByCourseName("Programming"));
+        processAddStudentToCourse((Student) getHumanById(students, 7), getCourseByCourseName("Biology"));
+        processAddStudentToCourse((Student) getHumanById(students, 7), getCourseByCourseName("Language"));
+        processAddStudentToCourse((Student) getHumanById(students, 7), getCourseByCourseName("Sociology"));
+        processAddStudentToCourse((Student) getHumanById(students, 7), getCourseByCourseName("Physic"));
+
+        //
 
     }
 
     protected void run() {
 
+        clearScreen();
+        System.out.println("Welcome to our academy! \n");
 
-        boolean process = true;
-        Scanner scanner = new Scanner(System.in);
-        String name;
-        String sureName;
-        int age;
+        int menu;
+
+        do {
+            System.out.println("\n");
+            printMenu();
+            menu = getMenuPoint();
+            switch (menu) {
+                case 1:
+                    getAllCourses();
+                    break;
+                case 2:
+                    getAllTeachers();
+                    break;
+                case 3:
+                    getAllStudents();
+                    break;
+                case 4:
+                    getStudentInfoById();
+                    break;
+                case 5:
+                    addStudentToCourse();
+                    break;
+                case 6:
+                    addNewStudent();
+                    break;
+                case 7:
+                    setMark();
+                    break;
+                case 8:
+                    return;
+                default:
+                    clearScreen();
+                    System.out.println();
+
+            }
+        } while (menu != 0);
+    }
+
+
+    private void addNewStudent() {
+
+        clearScreen();
+        System.out.println("Enter new student name:");
+        String name = getStringFromConsole();
+        System.out.println("Enter new student surname:");
+        String surname = getStringFromConsole();
+        int age = 0;
+
+        do {
+            System.out.println("Enter new student age");
+            int gotAgeFromUser = getIntFromConsole();
+            age = (gotAgeFromUser > 15 && gotAgeFromUser < 100) ? gotAgeFromUser : 0;
+
+        } while (age == 0);
+
+        addStudent(name, surname, age);
+        System.out.println("New student has been added");
 
     }
 
-    //todo rebuild method to short
+    private void getStudentInfoById() {
+
+        int id = getIdFromConsole("student");
+        Human h = getHumanById(students, id);
+        if (h == null) {
+            System.out.println("\nStudent with id " + id + " doesn't exist");
+            return;
+        } else {
+            Student s = (Student) h;
+            System.out.println("\nStudent's name: " + s.getName() + "; Surname: " + s.getSurname() + "; age : " + s.getAge());
+            System.out.println("Joins courses :");
+            for (Course course : s.getCourses()) {
+                System.out.println(course.getCourseName());
+            }
+            System.out.println("\nHas marks: \n");
+            for (Mark mark : s.getMarks()) {
+                System.out.println("Course : " + mark.getCourse().getCourseName() + "; Teacher : " + mark.getTeacher().getName() + " " +
+                        mark.getTeacher().getSurname() + "; mark : " + mark.getValue() + ";\nfeedback : " + mark.getFeedback() + ".\n");
+            }
+        }
+    }
+
+
+    private Human getHumanById(ArrayList list, int id) {
+
+        Human human;
+        Iterator<Human> it = list.iterator();
+        while (it.hasNext()) {
+            human = it.next();
+            if (id == human.getPersonalId()) {
+                return human;
+            }
+        }
+        return null;
+    }
+
+    private int getIdFromConsole(String typeOfHuman) {
+
+        int gotId;
+        do {
+//            clearScreen();
+            System.out.println("Enter id of " + typeOfHuman);
+            int selectedIntFromConsole = getIntFromConsole();
+            gotId = selectedIntFromConsole <= 0 ? 0 : selectedIntFromConsole;
+
+        } while (gotId == 0);
+
+        return gotId;
+    }
+
+
+    private void getAllTeachers() {
+
+        for (Teacher t : teachers) {
+            System.out.println("Id : " + t.getPersonalId() + "; Name : " + t.getName() + "; Surname : " + t.getSurname() + "; age : " + t.getAge() +
+                    "; course : " + t.getCourse().getCourseName() + ";");
+        }
+    }
+
+    private void getAllStudents() {
+
+        for (Student s : students) {
+
+            System.out.println("Id : " + s.getPersonalId() + "; Name : " + s.getName() + "; Surname : " + s.getSurname() + "; age : " + s.getAge() + ";");
+        }
+    }
+
+    private void getAllCourses() {
+
+        courses.forEach((s, c) -> System.out.println("Course name: " + s));
+
+    }
+
+
+    private int getMenuPoint() {
+
+        int selectedMenuPointFromUser;
+        selectedMenuPointFromUser = getIntFromConsole();
+        return (selectedMenuPointFromUser < 1 || selectedMenuPointFromUser > 9) ? 0 : selectedMenuPointFromUser;
+    }
+
+
+    private int getIntFromConsole() {
+
+        Scanner scanner = new Scanner(System.in);
+        return (scanner.hasNextInt()) ? scanner.nextInt() : 0;
+    }
+
+
+    private void clearScreen() {
+
+        //this method doesn't really clear screen. but make  some new text  more noticeable
+        for (int i = 0; i < 20; i++) {
+            System.out.println();
+        }
+    }
+
+
+    private void printMenu() {
+
+        System.out.println("1. Get all courses");
+        System.out.println("2. Get all teachers");
+        System.out.println("3. Get all students");
+        System.out.println("4. Get student info by id");
+        System.out.println("5. Add student to course");
+        System.out.println("6. Add new student");
+        System.out.println("7. Set mark to student");
+        System.out.println("8. Exit");
+    }
+
+
+    private Course getCourseByCourseName(String courseName) {
+
+        Course course = null;
+        for (Map.Entry<String, Course> entry : courses.entrySet()) {
+            if (courseName.equals(entry.getKey())) {
+                course = entry.getValue();
+                break;
+            }
+        }
+        return course;
+    }
+
+
     protected void mapTeacherToCourse(int idTeacher, String courseName) {
-        Teacher findTeacher = null;
-        Course findCourse = null;
+
+        Teacher foundTeacher = null;
+        Course foundCourse = null;
 
         for (Teacher t : teachers) {
             if (t.getPersonalId() == (idTeacher)) {
-                findTeacher = t;
+                foundTeacher = t;
                 break;
             }
         }
 
-        findCourse = courses.get(courseName);
+        foundCourse = courses.get(courseName);
 
-        if (findTeacher == null) {
+        if (foundTeacher == null) {
             System.out.println("Teacher not found");
             return;
-        } else if (findCourse == null) {
+        } else if (foundCourse == null) {
             System.out.println("Course not found");
             return;
         } else {
-            findTeacher.setCourse(findCourse);
-            findCourse.setTeacher(findTeacher);
+            foundTeacher.setCourse(foundCourse);
+            foundCourse.setTeacher(foundTeacher);
         }
+    }
+
+
+    protected void addTeacher(String name, String surname, int age) {
+        teachers.add(new Teacher(Human.getHumanId(), name, surname, age));
 
     }
 
-    protected void addTeacher(String name, String sureName, int age) {
-        teachers.add(new Teacher(Human.getHumanId(), name, sureName, age));
-        Human.increaseId();
+
+    protected void addStudent(String name, String surname, int age) {
+        students.add(new Student(Human.getHumanId(), name, surname, age));
+
     }
 
-    protected void addStudent(String name, String sureName, int age) {
-        students.add(new Student(Human.getHumanId(), name, sureName, age));
-        Human.increaseId();
-    }
 
     protected void addCourse(String courseName) {
         courses.put(courseName, new Course(courseName));
     }
 
-    protected void setMark(int teacherId, int studentId, int markValue) {
-        Teacher t = null;
-        Student s = null;
 
-        for (Teacher teacher : teachers) {
-            if (teacher.getPersonalId() == teacherId) {
-                t = teacher;
-                break;
-            }
-        }
-        for (Student student : students) {
-            if (student.getPersonalId() == studentId) {
-                s = student;
-                break;
-            }
-        }
+    private String getStringFromConsole() {
+        Scanner scanner = new Scanner(System.in);
+        String string = scanner.nextLine();
+        return string;
+    }
 
-        if (s == null) {
-            System.out.println("Student not found");
-            return;
-        } else if (t == null) {
-            System.out.println("Teacher not found");
+    protected void setMark() {
+
+        Teacher teacher;
+        Student student;
+
+        getAllTeachers();
+        System.out.println();
+        int teacherId = getIdFromConsole("teacher");
+        Human human = getHumanById(teachers, teacherId);
+        if (human == null) {
+            System.out.println("Teacher with this id doesn't exist");
             return;
         } else {
-            t.setMark(s, markValue);
+            teacher = (Teacher) human;
         }
+
+        getAllStudents();
+        System.out.println();
+        int studentId = getIdFromConsole("student");
+        human = getHumanById(students, studentId);
+        if (human == null) {
+            System.out.println("Student with this id doesn't exist");
+            return;
+        } else {
+            student = (Student) human;
+        }
+        int markValue;
+        do {
+            clearScreen();
+            System.out.println("Set mark (1-10) to student");
+            int gotMarkValue = getIntFromConsole();
+            markValue = gotMarkValue < 1 || gotMarkValue > 10 ? 0 : gotMarkValue;
+
+        } while (markValue == 0);
+
+        String feedback;
+        clearScreen();
+        System.out.println("Write feedback");
+        feedback = getStringFromConsole();
+        teacher.setMark(student, markValue, feedback);
 
     }
 
-    protected void addStudentToCourse(int studentId, String courseName) {
-        Student s = null;
-        Course c = null;
 
-        for (Student student : students) {
-            if (student.getPersonalId() == studentId) {
-                s = student;
-                break;
-            }
-        }
-        c = courses.get(courseName);
+    protected void addStudentToCourse() {
 
-        if (s == null) {
-            System.out.println("Student not found");
+        int studentId = getIdFromConsole("student");
+        Human h = getHumanById(students, studentId);
+        if (h == null) {
+            System.out.println("Student with this id doesn't exist");
             return;
-        } else if (c == null) {
-            System.out.println("Course not found");
-            return;
-        } else {
-            s.addCourse(c);
         }
+        Student student = (Student) h;
+
+        Course course = null;
+        course = getCourseNameFromUser();
+        processAddStudentToCourse(student, course);
+
     }
 
+
+    private void processAddStudentToCourse(Student student, Course course) {
+
+        student.addCourse(course);
+        System.out.println("Student has been added to course");
+    }
+
+
+    private Course getCourseNameFromUser() {
+
+        Course course = null;
+
+        do {
+            clearScreen();
+
+            System.out.println("Enter course name: \n");
+            System.out.println("Available courses");
+            getAllCourses();
+            String courseNameFromUser = getStringFromConsole();
+
+            course = getCourseByCourseName(courseNameFromUser);
+        } while (course == null);
+
+        return course;
+    }
 }

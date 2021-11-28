@@ -2,32 +2,34 @@ package by.itacademy.course.academy;
 
 public abstract class Human {
 
-    private static int humanIdCount;
+    private static int humanIdCount = 1;
 
     private String name;
-    private String sureName;
+    private String surname;
     private int age;
-    private final int personalId;
+    private final int PERSONAL_ID;
 
 
-    public Human(int id, String name, String sureName, int age) {
+    public Human(int id, String name, String surname, int age) {
         this.name = name;
-        this.sureName = sureName;
+        this.surname = surname;
         this.age = age;
-        this.personalId = id;
-    }
-
-
-    public static void increaseId() {
+        this.PERSONAL_ID = id;
         humanIdCount++;
     }
+
+
+
+//    public static void increaseId() {
+//        humanIdCount++;
+//    }
 
     public static int getHumanId() {
         return humanIdCount;
     }
 
     public int getPersonalId() {
-        return personalId;
+        return PERSONAL_ID;
     }
 
 
@@ -35,8 +37,8 @@ public abstract class Human {
         this.name = name;
     }
 
-    public void setSureName(String sureName) {
-        this.sureName = sureName;
+    public void sen(String surname) {
+        this.surname = surname;
     }
 
     public void setAge(int age) {
@@ -48,11 +50,13 @@ public abstract class Human {
     }
 
 
-    public String getSureName() {
-        return sureName;
+    public String getSurname() {
+        return surname;
     }
 
     public int getAge() {
         return age;
     }
+
+
 }
