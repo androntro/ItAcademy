@@ -6,9 +6,9 @@ import java.util.*;
 public class Academy {
 
 
-    protected ArrayList<Student> students;
-    protected ArrayList<Teacher> teachers;
-    protected HashMap<String, Course> courses;
+    private ArrayList<Student> students;
+    private ArrayList<Teacher> teachers;
+    private HashMap<String, Course> courses;
 
     public static void main(String[] args) {
         Academy academy = new Academy();
@@ -66,7 +66,7 @@ public class Academy {
 
     }
 
-    protected void run() {
+    private void run() {
 
         clearScreen();
         System.out.println("Welcome to our academy! \n");
@@ -79,13 +79,13 @@ public class Academy {
             menu = getMenuPoint();
             switch (menu) {
                 case 1:
-                    getAllCourses();
+                    printAllCourses();
                     break;
                 case 2:
-                    getAllTeachers();
+                    printAllTeachers();
                     break;
                 case 3:
-                    getAllStudents();
+                    printAllStudents();
                     break;
                 case 4:
                     getStudentInfoById();
@@ -133,6 +133,7 @@ public class Academy {
 
     private void getStudentInfoById() {
 
+        printAllStudents();
         int id = getIdFromConsole("student");
         Human h = getHumanById(students, id);
         if (h == null) {
@@ -182,7 +183,7 @@ public class Academy {
     }
 
 
-    private void getAllTeachers() {
+    private void printAllTeachers() {
 
         for (Teacher t : teachers) {
             System.out.println("Id : " + t.getPersonalId() + "; Name : " + t.getName() + "; Surname : " + t.getSurname() + "; age : " + t.getAge() +
@@ -190,7 +191,7 @@ public class Academy {
         }
     }
 
-    private void getAllStudents() {
+    private void printAllStudents() {
 
         for (Student s : students) {
 
@@ -198,7 +199,7 @@ public class Academy {
         }
     }
 
-    private void getAllCourses() {
+    private void printAllCourses() {
 
         courses.forEach((s, c) -> System.out.println("Course name: " + s));
 
@@ -255,7 +256,7 @@ public class Academy {
     }
 
 
-    protected void mapTeacherToCourse(int idTeacher, String courseName) {
+    private void mapTeacherToCourse(int idTeacher, String courseName) {
 
         Teacher foundTeacher = null;
         Course foundCourse = null;
@@ -282,19 +283,19 @@ public class Academy {
     }
 
 
-    protected void addTeacher(String name, String surname, int age) {
+    private void addTeacher(String name, String surname, int age) {
         teachers.add(new Teacher(Human.getHumanId(), name, surname, age));
 
     }
 
 
-    protected void addStudent(String name, String surname, int age) {
+    private void addStudent(String name, String surname, int age) {
         students.add(new Student(Human.getHumanId(), name, surname, age));
 
     }
 
 
-    protected void addCourse(String courseName) {
+    private void addCourse(String courseName) {
         courses.put(courseName, new Course(courseName));
     }
 
@@ -305,12 +306,12 @@ public class Academy {
         return string;
     }
 
-    protected void setMark() {
+    private void setMark() {
 
         Teacher teacher;
         Student student;
 
-        getAllTeachers();
+        printAllTeachers();
         System.out.println();
         int teacherId = getIdFromConsole("teacher");
         Human human = getHumanById(teachers, teacherId);
@@ -321,7 +322,7 @@ public class Academy {
             teacher = (Teacher) human;
         }
 
-        getAllStudents();
+        printAllStudents();
         System.out.println();
         int studentId = getIdFromConsole("student");
         human = getHumanById(students, studentId);
@@ -349,9 +350,11 @@ public class Academy {
     }
 
 
-    protected void addStudentToCourse() {
+    private void addStudentToCourse() {
 
+        printAllStudents();
         int studentId = getIdFromConsole("student");
+
         Human h = getHumanById(students, studentId);
         if (h == null) {
             System.out.println("Student with this id doesn't exist");
@@ -382,7 +385,7 @@ public class Academy {
 
             System.out.println("Enter course name: \n");
             System.out.println("Available courses");
-            getAllCourses();
+            printAllCourses();
             String courseNameFromUser = getStringFromConsole();
 
             course = getCourseByCourseName(courseNameFromUser);
